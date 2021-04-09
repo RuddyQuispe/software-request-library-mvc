@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import path from 'path';
 import expressHandlebars from 'express-handlebars';
 import methodOverride from 'method-override';
-import flash from 'connect-flash';
+import PLibro from './presentacion/libroPresentacion/Plibro';
 
 /**
  * Import Routes
@@ -42,7 +42,7 @@ export class App {
             extname: '.hbs',    // files extensions
             partialsDir: path.join(this.app.get('views'), 'partials'),  // partitions hbs
             defaultLayout: 'main',  // main file
-            layoutsDir: path.join(this.app.get('views'), 'layouts'),
+            layoutsDir: path.join(this.app.get('views'), 'layout'),
             helpers: {
                 foo: function (a: Number, b: Number, opts: any) {
                     return (a == b) ? opts.fn(this) : opts.inverse(this);;
@@ -53,7 +53,6 @@ export class App {
         this.app.set('view engine', '.hbs');                             // using handlebars
         this.app.use(express.urlencoded({ extended: true }));
         this.app.use(methodOverride('_method'));                      // you can to send html methods as put, delete
-        this.app.use(flash());
     }
 
     /**
@@ -62,11 +61,6 @@ export class App {
     private middlewares(): void {
         this.app.use(morgan('dev'));
         this.app.use(express.json());
-        this.app.use((req, res, next) => {
-            res.locals.success_msg = req.flash('success_msg');
-            res.locals.error_msg = req.flash('error_msg');
-            next();
-        });
     }
 
     /**
@@ -74,7 +68,8 @@ export class App {
      */
     private routes(): void {
         //    this.app.use('/api_soul', authRouter);
-        //    this.app.use('/api_soul', blackboardSessionRouter);
+        let presentationBook: PLibro = new PLibro();
+        this.app.use('/api_soul', presentationBook.router);
     }
 
     /**
