@@ -7,6 +7,7 @@ import path from 'path';
 import expressHandlebars from 'express-handlebars';
 import methodOverride from 'method-override';
 import { Conexion } from './config/Conexion';
+import CategoriaControlador from './controladores/CategoriaControlador';
 
 /**
  * Importacion de Vistas (rutas)
@@ -82,8 +83,8 @@ export class App {
      * - Libros
      */
     private routes(): void {
-        // let presentationBook: PLibro = new PLibro();
-        // this.app.use('/api_soul', presentationBook.router);
+        let categoriaControlador: CategoriaControlador = new CategoriaControlador();
+        this.app.use('/gestionar_categoria', categoriaControlador.router);
     }
 
     /**
