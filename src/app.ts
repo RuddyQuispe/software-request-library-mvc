@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import path from 'path';
 import expressHandlebars from 'express-handlebars';
 import methodOverride from 'method-override';
-import { Conexion } from './config/Conexion';
+import { Conexion } from './database/Conexion';
 import CategoriaControlador from './controladores/CategoriaControlador';
 
 /**
