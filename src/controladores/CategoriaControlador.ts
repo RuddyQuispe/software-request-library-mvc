@@ -54,6 +54,11 @@ export default class CategoriaControlador {
         await this.categoriaVista.obtenerVistaEditarCategoria(response, Number(id_categoria));
     }
 
+    /**
+     * modifica la descripcion de categoria
+     * @param request : peticion HTTP
+     * @param response : respuesta HTTP
+     */
     public async modificarCategoria(request: Request, response: Response): Promise<void> {
         let { id_categoria } = request.params;
         let { descripcion } = request.body;
@@ -67,10 +72,11 @@ export default class CategoriaControlador {
             this.categoriaVista.actualizarVistaCategoria(response);
         }
     }
+
     /**
      * metodo privado para cargar las rutas que disponen en los metodos HTTP
      */
-    private createRoutes() {
+    private createRoutes(): void {
         this.router.route('/').get(async (req: Request, res: Response) => this.obtenerListaCategoria(req, res));
         this.router.route('/').post(async (req: Request, res: Response) => this.registrarCategoria(req, res));
         this.router.route('/:id_categoria').get(async (req: Request, res: Response) => this.obtenerVistaEditarCategoria(req, res));

@@ -60,10 +60,10 @@ export class CategoriaModelo {
      * obtener listas de categorias de libros guardados
      * @returns lista de categorias o undefinde si ocurrio un error
      */
-    public async obtenerListaCategorias(): Promise<any[] | undefined> {
+    public async obtenerListaCategorias(): Promise<Array<{ id: number, descripcion: string }> | undefined> {
         try {
-            let resultado: QueryResult | undefined = await this.conexionDatabase.ejecutarConsultaSQL(`select id, descripcion from categoria order by id`);
-            return resultado?.rows;
+            let resultado: QueryResult = await this.conexionDatabase.ejecutarConsultaSQL(`select id, descripcion from categoria order by id`);
+            return resultado.rows;
         } catch (error) {
             console.log("Error en metodo obtenerListaCategorias", error);
             return undefined;
