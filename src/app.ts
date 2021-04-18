@@ -1,13 +1,14 @@
 /**
  * Importancion de librerias
  */
-import express, { Application } from 'express';
+import { serverHTTP, Application } from './config';
 import morgan from 'morgan';
 import path from 'path';
 import expressHandlebars from 'express-handlebars';
 import methodOverride from 'method-override';
 import { Conexion } from './database/Conexion';
 import CategoriaControlador from './controladores/CategoriaControlador';
+import { LibroControlador } from './controladores/LibroControlador';
 
 /**
  * Importacion de Vistas (rutas)
@@ -31,7 +32,7 @@ export class App {
      * @param port puerto para inicializar el servidor HTTP
      */
     constructor(port?: number | string) {
-        this.app = express();
+        this.app = serverHTTP();
         this.app.set('PORT', process.env.PORT || port || 3000);
         this.setting();
         this.middlewares();
@@ -62,7 +63,7 @@ export class App {
         });
         this.app.engine('.hbs', hbs.engine);
         this.app.set('view engine', '.hbs');                             // using handlebars
-        this.app.use(express.urlencoded({ extended: true }));
+        this.app.use(serverHTTP.urlencoded({ extended: true }));
         this.app.use(methodOverride('_method'));                      // you can to send html methods as put, delete
         let conexion = Conexion.getInstancia();
     }
@@ -74,7 +75,7 @@ export class App {
      */
     private middlewares(): void {
         this.app.use(morgan('dev'));
-        this.app.use(express.json());
+        this.app.use(serverHTTP.json());
     }
 
     /**
@@ -85,6 +86,8 @@ export class App {
     private routes(): void {
         let categoriaControlador: CategoriaControlador = new CategoriaControlador();
         this.app.use('/gestionar_categoria', categoriaControlador.router);
+        let libroControlador: LibroControlador = new LibroControlador();
+        this.app.use('/gestionar_libro', libroControlador.router);
     }
 
     /**

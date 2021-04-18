@@ -24,13 +24,6 @@ create table usuario_lector(
 	telefono varchar(9) not null
 );
 
-create table usuario_admin(
-	codigo serial not null primary key,
-	nombre text not null,
-	apellido text not null,
-	email text not null
-);
-
 create table categoria(
 	id serial not null primary key,
 	descripcion text not null

@@ -1,0 +1,116 @@
+<div class="card mx-auto bg-dark mb-3 text-light">
+    <div class="card-header">
+        Gestionar Libro
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="card-title">Registrar Libro</h5>
+                <form action="/gestionar_categoria" method="post">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Autor</span>
+                        </div>
+                        <input type="text" class="form-control" required minlength="4" name="autor"
+                            placeholder="Juancito Pinto" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Titulo del Libro</span>
+                        </div>
+                        <input type="text" class="form-control" required minlength="4" name="titulo"
+                            placeholder="Lo que el agua se llevó" aria-label="Sizing example input"
+                            aria-describedby="inputGroup-sizing-default">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Descripción</span>
+                        </div>
+                        <textarea name="descripcion" class="form-control" placeholder="Resumen del libro" cols="39"
+                            rows="3"></textarea>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Edicion del Libro</span>
+                        </div>
+                        <input type="text" class="form-control" required minlength="3" name="edicion"
+                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+                            placeholder="ej. 1ra, 3ra, 5ta, 8va, 12va">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Cantidad Disponible</span>
+                        </div>
+                        <input type="number" class="form-control" required min="1" name="stock"
+                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+                            placeholder="ej. 1ra, 3ra, 5ta, 8va, 12va">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Categoria</span>
+                        </div>
+                        <select class="form-select form-select-lg" size="3" aria-label="size 3 select example"
+                            name="id_categoria">
+                            <option selected>Selecciona una categoria</option>
+                            {{#each lista_categorias}}
+                            <option value="{{id}}">{{descripcion}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">Guardar Nuevo Libro</button>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <table class="table table-striped table-dark table-responsive">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Autor</th>
+                            <th>Titulo</th>
+                            <th>Edición</th>
+                            <th>Stock</th>
+                            <th>Estado</th>
+                            <th>Categoria</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each lista_libro}}
+                        <tr>
+                            <th>{{codigo}}</th>
+                            <th>{{autor}}</th>
+                            <th>{{titulo}}</th>
+                            <th>{{edicion}}</th>
+                            <th>{{stock}}</th>
+                            <th>{{estado}}</th>
+                            <th>{{descripcion_categoria}}</th>
+                            <td>
+                                <a href="/gestionar_categoria/{{id}}" type="button"
+                                    class="btn btn-outline-primary btn-sm"><small>editar</small>
+                                </a>
+                                <button class="btn btn-outline-danger btn-sm">eliminar</button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    axios.get('https://pokeapi.co/api/v2/pokemon/ditto')
+        .then(function (response) {
+            // handle success
+            console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        })
+        .then(function () {
+            // always executed
+        });
+</script>

@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response } from '../../config';
 import { CategoriaModelo } from '../../modelos/categoriaModelo';
 
 export class CategoriaVista {
