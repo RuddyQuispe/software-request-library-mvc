@@ -103,7 +103,7 @@ export class LibroModelo {
      * @returns true: si se registro correctamente, false si no lo registro (hubo errores)
      */
     public async registrarLibro(): Promise<boolean> {
-        let resultado = await this.conexionDatabase.ejecutarConsultaSQL(`insert into libro(autor, titulo, descripcion, stock,estado,id_categoria) values ('${this.autor}', '${this.titulo}', '${this.descripcion}', ${this.stock}, ${this.estado}, ${this.idCategoria}) returning codigo`);
+        let resultado = await this.conexionDatabase.ejecutarConsultaSQL(`insert into libro(autor, titulo, descripcion, stock, estado, edicion, id_categoria) values ('${this.autor}', '${this.titulo}', '${this.descripcion}', ${this.stock}, true, '${this.edicion}', ${this.idCategoria}) returning codigo`);
         return typeof resultado.rows[0].codigo === 'number';
     }
 
@@ -158,7 +158,7 @@ export class LibroModelo {
      */
     public async modificarLibro(): Promise<boolean> {
         try {
-            await this.conexionDatabase.ejecutarConsultaSQL(`update libro set autor='${this.autor}', titulo='${this.titulo}', descripcion='${this.descripcion}', edicion='${this.edicion}', stock=${this.stock}, estado=${this.estado}, id_categoria=${this.idCategoria} where codigo=${this.codigo};`);
+            await this.conexionDatabase.ejecutarConsultaSQL(`update libro set autor='${this.autor}', titulo='${this.titulo}', descripcion='${this.descripcion}', edicion='${this.edicion}', stock=${this.stock}, id_categoria=${this.idCategoria} where codigo=${this.codigo};`);
             return true;
         } catch (error) {
             console.log("Error en metodo modificarLibro modelo", error);
@@ -176,6 +176,20 @@ export class LibroModelo {
             return true;
         } catch (error) {
             console.log("Error en metodo eliminarLibro", error);
+            return false;
+        }
+    }
+
+    /**
+     * habilita o inhabilita un libro con el codigo (this.codigo) guardado en la BD
+     * @returns true si se cambio el estado del libro a modificar
+     */
+    public async habilitarOInhabilitarLibro(): Promise<boolean> {
+        try {
+            await this.conexionDatabase.ejecutarConsultaSQL(`update libro set estado=not estado where codigo=${this.codigo}`);
+            return true;
+        } catch (error) {
+            console.log("Error en metodo habilitarOInhabilitarLibro", error);
             return false;
         }
     }

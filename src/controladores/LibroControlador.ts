@@ -26,7 +26,7 @@ export class LibroControlador {
      * @param response : respuesta de HTTP
      */
     public async obtenerListaLibros(request: Request, response: Response): Promise<void> {
-        await this.libroVista.actualizarVistaCategoria(response);
+        await this.libroVista.obtenerVistaLibro(response);
     }
 
     /**
@@ -35,16 +35,15 @@ export class LibroControlador {
      * @param response : respuesta de HTTP
      */
     public async registrarLibro(request: Request, response: Response): Promise<void> {
-        let { autor, titulo, descripcion, edicion, stock, estado, id_categoria } = request.body;
+        let { autor, titulo, descripcion, edicion, stock, id_categoria } = request.body;
         this.libroModelo.setAutor(autor);
         this.libroModelo.setTitulo(titulo);
         this.libroModelo.setDescripcion(descripcion);
         this.libroModelo.setEdicion(edicion);
         this.libroModelo.setStock(stock);
-        this.libroModelo.setEstado(estado);
         this.libroModelo.setIdCategoria(id_categoria);
         if (await this.libroModelo.registrarLibro()) {
-            await this.libroVista.actualizarVistaCategoria(response);
+            await this.libroVista.actualizarVistaLibro(response);
         }
 
     }
@@ -67,6 +66,7 @@ export class LibroControlador {
     public async modificarLibro(request: Request, response: Response): Promise<void> {
         let { codigo_libro } = request.params;
         let { autor, titulo, descripcion, edicion, stock, estado, id_categoria } = request.body;
+        console.log(request.params, request.body);
         this.libroModelo.setCodigo(Number(codigo_libro));
         this.libroModelo.setAutor(autor);
         this.libroModelo.setTitulo(titulo);
@@ -77,10 +77,10 @@ export class LibroControlador {
         this.libroModelo.setIdCategoria(id_categoria);
         if (await this.libroModelo.modificarLibro()) {
             // modificacion de libro correctamente
-            this.libroVista.actualizarVistaCategoria(response);
+            this.libroVista.actualizarVistaLibro(response);
         } else {
             // hubo errores en modificacion de categoria
-            this.libroVista.actualizarVistaCategoria(response);
+            this.libroVista.actualizarVistaLibro(response);
         }
     }
 
@@ -93,9 +93,19 @@ export class LibroControlador {
         let { codigo_libro } = request.params;
         this.libroModelo.setCodigo(Number(codigo_libro));
         if (await this.libroModelo.eliminarLibro()) {
-            this.libroVista.actualizarVistaCategoria(response);
+            this.libroVista.actualizarVistaLibro(response);
         } else {
-            this.libroVista.actualizarVistaCategoria(response);
+            this.libroVista.actualizarVistaLibro(response);
+        }
+    }
+
+    public async habilitarOInhabilitarLibro(request: Request, response: Response): Promise<void> {
+        let { codigo_libro } = request.params;
+        this.libroModelo.setCodigo(Number(codigo_libro));
+        if (await this.libroModelo.habilitarOInhabilitarLibro()) {
+            this.libroVista.actualizarVistaLibro(response);
+        } else {
+            this.libroVista.actualizarVistaLibro(response);
         }
     }
 
@@ -108,5 +118,6 @@ export class LibroControlador {
         this.router.route('/:codigo_libro').get(async (req: Request, res: Response) => this.obtenerVistaEditarLibro(req, res));
         this.router.route('/modificar/:codigo_libro').put(async (req: Request, res: Response) => this.modificarLibro(req, res));
         this.router.route('/eliminar/:codigo_libro').delete(async (req: Request, res: Response) => this.eliminarLibro(req, res));
+        this.router.route('/habilitar_inhabilitar/:codigo_libro').put(async (req: Request, res: Response) => this.habilitarOInhabilitarLibro(req, res));
     }
 }

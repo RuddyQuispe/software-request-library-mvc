@@ -15,10 +15,18 @@ export class LibroVista {
     }
 
     /**
+     * actualiza la vista de libro
+     * @param response : respuesta de HTTP
+     */
+    public async actualizarVistaLibro(response: Response): Promise<void> {
+        response.redirect('/gestionar_libro');
+    }
+
+    /**
      * actualiza la vista gestionar libro
      * @param response : respuesta HTTP
      */
-    public async actualizarVistaCategoria(response: Response): Promise<void> {
+    public async obtenerVistaLibro(response: Response): Promise<void> {
         let listaLibros = await this.libroModelo.obtenerListaLibros();
         let listaCategorias = await this.categoriaModelo.obtenerListaCategorias();
         response.render('libro/gestionar_libro', {
@@ -35,6 +43,7 @@ export class LibroVista {
     public async obtenerVistaEditarLibro(response: Response, codigoLibro: number): Promise<void> {
         this.libroModelo.setCodigo(codigoLibro);
         let datosDeLibro: { codigo: number, autor: string, titulo: string, descripcion: string, edicion: string, stock: number, estado: boolean, id_categoria: number } | undefined = await this.libroModelo.obtenerDatosDeLibro();
+        let listaCategorias = await this.categoriaModelo.obtenerListaCategorias();
         if (datosDeLibro) {
             // si existe categoria y los obtuvo
             response.status(200).render('libro/editar_libro', {
@@ -45,11 +54,12 @@ export class LibroVista {
                 edicion: datosDeLibro.edicion,
                 stock: datosDeLibro.stock,
                 estado: datosDeLibro.estado,
-                id_categoria: datosDeLibro.id_categoria
+                id_categoria: datosDeLibro.id_categoria,
+                lista_categorias: listaCategorias
             });
         } else {
             // si no existe categoria con el idCategoria (undefined)
-            response.status(200).render('categoria/editar_categoria', {
+            response.status(200).render('categoria/editar_libro', {
                 codigo: 0,
                 autor: "none",
                 titulo: "none",
@@ -57,7 +67,8 @@ export class LibroVista {
                 edicion: "none",
                 stock: -1,
                 estado: false,
-                id_categoria: 0
+                id_categoria: 0,
+                lista_categorias: listaCategorias
             });
         }
     }

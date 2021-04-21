@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-md-4">
                 <h5 class="card-title">Registrar Libro</h5>
-                <form action="/gestionar_categoria" method="post">
+                <form action="/gestionar_libro" method="post">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">Autor</span>
@@ -44,7 +44,7 @@
                         </div>
                         <input type="number" class="form-control" required min="1" name="stock"
                             aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
-                            placeholder="ej. 1ra, 3ra, 5ta, 8va, 12va">
+                            placeholder="1" value="1" min="1">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -58,7 +58,8 @@
                             {{/each}}
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-outline-primary">Guardar Nuevo Libro</button>
+                    <button type="submit" class="btn btn-outline-primary">Guardar Nuevo
+                        Libro</button>
                 </form>
             </div>
             <div class="col-md-8">
@@ -78,39 +79,104 @@
                     <tbody>
                         {{#each lista_libro}}
                         <tr>
-                            <th>{{codigo}}</th>
+                            {{#if estado}}
+                            <th class="bg-success">{{codigo}}</th>
+                            {{else}}
+                            <th class="bg-danger">{{codigo}}</th>
+                            {{/if}}
                             <th>{{autor}}</th>
                             <th>{{titulo}}</th>
                             <th>{{edicion}}</th>
                             <th>{{stock}}</th>
-                            <th>{{estado}}</th>
+                            <th>
+                                {{#if estado}}
+                                <form action="/gestionar_libro/habilitar_inhabilitar/{{codigo}}?_method=PUT"
+                                    method="post">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm btn-xs">
+                                        inhabilitar
+                                    </button>
+                                </form>
+                                {{else}}
+                                <form action="/gestionar_libro/habilitar_inhabilitar/{{codigo}}?_method=PUT"
+                                    method="post">
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <button type="submit" class="btn btn-outline-success btn-sm btn-xs">
+                                        habilitar
+                                    </button>
+                                </form>
+                                {{/if}}
+                            </th>
                             <th>{{descripcion_categoria}}</th>
                             <td>
-                                <a href="/gestionar_categoria/{{id}}" type="button"
-                                    class="btn btn-outline-primary btn-sm"><small>editar</small>
+                                <a href="/gestionar_libro/{{codigo}}" type="button"
+                                    class="btn btn-outline-warning btn-sm btn-xs"><small><span class="material-icons">
+                                            edit
+                                        </span></small>
                                 </a>
-                                <button class="btn btn-outline-danger btn-sm">eliminar</button>
+                                <button class="btn btn-outline-danger btn-sm" data-toggle="modal"
+                                    data-target="#exampleModal" onclick="eliminarLibro({{codigo}})"><span
+                                        class="material-icons">
+                                        delete
+                                    </span></button>
                             </td>
                         </tr>
                         {{/each}}
                     </tbody>
                 </table>
             </div>
+            <!-- Button trigger modal -->
+
+            <!-- Modal -->
+            <div class="modal fade transform-8" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content bg-dark text-light">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="recipient-name">Esta seguro de eliminar el libro? </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" onclick="confirmarEliminacion()"
+                                data-dismiss="modal">Eliminar
+                                Libro</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    axios.get('https://pokeapi.co/api/v2/pokemon/ditto')
-        .then(function (response) {
-            // handle success
-            console.log(response);
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-        .then(function () {
-            // always executed
-        });
+    var data = {
+        codigo_libro: 0
+    };
+
+    function eliminarLibro(codigoLibro) {
+        data.codigo_libro = codigoLibro;
+        console.log("confirmar", codigoLibro);
+    }
+
+    function confirmarEliminacion() {
+        if (data.codigo_libro === undefined || data.codigo_libro === 0) {
+            alert("no puedo eliminar este libro");
+        } else {
+            let a = axios.delete('/gestionar_libro/eliminar/' + data.codigo_libro).then(function (response) {
+                document.getElementById(data.codigo_libro).remove();
+            }).catch(function (error) {
+                alert("Hubo un error al eliminar el libro");
+            });
+        }
+    }
+
+    function clickup(elemeto) {
+        console.log(elemeto);
+    }
 </script>

@@ -56,7 +56,7 @@ export class App {
             defaultLayout: 'main',  // main file
             layoutsDir: path.join(this.app.get('views'), 'layout'),
             helpers: {
-                foo: function (a: Number, b: Number, opts: any) {
+                if_compare: function (a: string, b: string, opts: any) {
                     return (a == b) ? opts.fn(this) : opts.inverse(this);;
                 }
             }
