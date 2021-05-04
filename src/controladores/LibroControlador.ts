@@ -1,3 +1,11 @@
+/**
+ * Materia: Arquitectura de Software
+ * UAGRM - FICCT
+ * @author: Ruddy Bryan Quispe Mamani 
+ * @version: 0.0.1
+ * @since: 14-04-2021
+ */
+
 import { Request, Response, Router } from '../config';
 import { LibroModelo } from "../modelos/LibroModelo";
 import { LibroVista } from "../vistas/libro/LibroVista";
@@ -43,7 +51,7 @@ export class LibroControlador {
         this.libroModelo.setStock(stock);
         this.libroModelo.setIdCategoria(id_categoria);
         if (await this.libroModelo.registrarLibro()) {
-            await this.libroVista.actualizarVistaLibro(response);
+            await this.libroVista.obtenerVistaLibro(response);
         }
 
     }
@@ -77,10 +85,10 @@ export class LibroControlador {
         this.libroModelo.setIdCategoria(id_categoria);
         if (await this.libroModelo.modificarLibro()) {
             // modificacion de libro correctamente
-            this.libroVista.actualizarVistaLibro(response);
+            this.libroVista.obtenerVistaLibro(response);
         } else {
             // hubo errores en modificacion de categoria
-            this.libroVista.actualizarVistaLibro(response);
+            this.libroVista.obtenerVistaLibro(response);
         }
     }
 
@@ -93,9 +101,9 @@ export class LibroControlador {
         let { codigo_libro } = request.params;
         this.libroModelo.setCodigo(Number(codigo_libro));
         if (await this.libroModelo.eliminarLibro()) {
-            this.libroVista.actualizarVistaLibro(response);
+            this.libroVista.obtenerVistaLibro(response);
         } else {
-            this.libroVista.actualizarVistaLibro(response);
+            this.libroVista.obtenerVistaLibro(response);
         }
     }
 
@@ -103,9 +111,9 @@ export class LibroControlador {
         let { codigo_libro } = request.params;
         this.libroModelo.setCodigo(Number(codigo_libro));
         if (await this.libroModelo.habilitarOInhabilitarLibro()) {
-            this.libroVista.actualizarVistaLibro(response);
+            this.libroVista.obtenerVistaLibro(response);
         } else {
-            this.libroVista.actualizarVistaLibro(response);
+            this.libroVista.obtenerVistaLibro(response);
         }
     }
 

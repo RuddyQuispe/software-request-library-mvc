@@ -1,3 +1,9 @@
+-- Materia: Arquitectura de Software
+-- UAGRM - FICCT
+-- @author: Ruddy Bryan Quispe Mamani 
+-- @version: 0.0.1
+-- @since: 03-05-2021
+
 -- ******** CREACION DEL USUARIO O ROL ******** 
 
 CREATE ROLE biblioteca_municipal
@@ -21,7 +27,7 @@ create table usuario_lector(
 	nombre text not null,
 	apellidos text not null,
 	email text not null,
-	telefono varchar(9) not null
+	telefono varchar(8) not null
 );
 
 create table categoria(
@@ -29,12 +35,16 @@ create table categoria(
 	descripcion text not null
 );
 
+insert into categoria(descripcion) values ('novela');
+insert into categoria(descripcion) values ('terror');
+insert into categoria(descripcion) values ('infantil');
+
 create table libro(
 	codigo serial not null primary key,
 	autor text not null,
 	titulo text not null,
 	descripcion text not null,
-	edicion text not null,
+	edicion varchar(5) not null,
 	stock integer not null,
 	estado boolean not null,
 	id_categoria integer not null,
@@ -43,23 +53,20 @@ create table libro(
 	on delete cascade
 );
 
-create table solicitud_prestamo(
+insert into libro(autor, titulo, descripcion, edicion, stock,estado,id_categoria) values ('Alcides Arguedas', 'Lo que el agua se LLevo', 'Libro del agua se llevo','3ra', 1, true, 1) returning codigo;
+insert into libro(autor, titulo, descripcion, edicion, stock,estado,id_categoria) values ('Kobey Bryant', 'Lo que la anotacion se LLevo', 'Libro del exito en el basquet','8va', 3, false, 2) returning codigo;
+
+create table prestamo_libro(
 	nro_solicitud serial primary key,
 	fecha date not null,
-	cant_dias_prestamo integer not null, -- 1 a 7 dias maximo
-	estado char(1) not null, -- 0:rechazado 1:acepado: 2:en espera
+	cant_dias_prestamo integer not null,
 	ci_usuario_lector integer not null,
-	codigo_usuario_admin integer null,
 	foreign key (ci_usuario_lector) references usuario_lector(ci)
-	on update cascade
-	on delete cascade,
-	foreign key (codigo_usuario_admin) references usuario_admin(codigo)
 	on update cascade
 	on delete cascade
 );
 
--- se registrara un maximo de 5 libros por solicitud
-create table caja_libros(
+create table lista_libros(
 	nro_solicitud integer not null,
 	codigo_libro integer not null,
 	primary key (nro_solicitud, codigo_libro),
@@ -67,6 +74,16 @@ create table caja_libros(
 	on update cascade
 	on delete cascade,
 	foreign key (codigo_libro) references libro(codigo)
+	on update cascade
+	on delete cascade
+);
+
+create table ampliacion_prestamo(
+	codigo_ampliacion serial not null,
+	nro_solicitud integer not null,
+	cant_dias_ampliacion integer not null check(cant_dias_ampliacion>0),
+	primary key(codigo_ampliacion, nro_solicitud),
+	foreign key (nro_solicitud) references solicitud_prestamo(nro_solicitud)
 	on update cascade
 	on delete cascade
 );

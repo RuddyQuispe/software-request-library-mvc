@@ -1,3 +1,11 @@
+/**
+ * Materia: Arquitectura de Software
+ * UAGRM - FICCT
+ * @author: Ruddy Bryan Quispe Mamani 
+ * @version: 0.0.1
+ * @since: 14-04-2021
+ */
+
 import { Response } from '../../config';
 import { CategoriaModelo } from "../../modelos/categoriaModelo";
 import { LibroModelo } from "../../modelos/LibroModelo";
@@ -12,14 +20,6 @@ export class LibroVista {
     constructor() {
         this.libroModelo = new LibroModelo();
         this.categoriaModelo = new CategoriaModelo();
-    }
-
-    /**
-     * actualiza la vista de libro
-     * @param response : respuesta de HTTP
-     */
-    public async actualizarVistaLibro(response: Response): Promise<void> {
-        response.redirect('/gestionar_libro');
     }
 
     /**

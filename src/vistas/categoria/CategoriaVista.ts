@@ -1,3 +1,11 @@
+/**
+ * Materia: Arquitectura de Software
+ * UAGRM - FICCT
+ * @author: Ruddy Bryan Quispe Mamani 
+ * @version: 0.0.1
+ * @since: 14-04-2021
+ */
+
 import { Response } from '../../config';
 import { CategoriaModelo } from '../../modelos/categoriaModelo';
 

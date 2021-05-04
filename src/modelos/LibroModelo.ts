@@ -1,3 +1,11 @@
+/**
+ * Materia: Arquitectura de Software
+ * UAGRM - FICCT
+ * @author: Ruddy Bryan Quispe Mamani 
+ * @version: 0.0.1
+ * @since: 14-04-2021
+ */
+
 import { QueryResult } from "pg";
 import { Conexion } from "../database/Conexion";
 
@@ -112,7 +120,7 @@ export class LibroModelo {
      * @returns Array (lista de libros existentes)
      */
     public async obtenerListaLibros(): Promise<Array<{ codigo: number, autor: string, titulo: string, descripcion: string, edicion: string, stock: number, estado: boolean, descripcion_categoria: number }>> {
-        let resultadoLista: QueryResult = await this.conexionDatabase.ejecutarConsultaSQL(`select l.codigo, l.autor, l.titulo, l.descripcion, l.edicion, l.stock, l.estado, c.descripcion as descripcion_categoria from libro l, categoria c where l.id_categoria=c.id`);
+        let resultadoLista: QueryResult = await this.conexionDatabase.ejecutarConsultaSQL(`select l.codigo, l.autor, l.titulo, l.descripcion, l.edicion, l.stock, l.estado, c.descripcion as descripcion_categoria from libro l, categoria c where l.id_categoria=c.id order by l.codigo`);
         return resultadoLista.rows;
     }
 
@@ -148,7 +156,7 @@ export class LibroModelo {
      * @returns Array (lista de libros habiltados)
      */
     public async obtenerLibrosHabilitados(): Promise<Array<{ codigo: number, autor: string, titulo: string, descripcion: string, edicion: string, stock: number, estado: boolean, descripcion_categoria: number }>> {
-        let resultadoLista: QueryResult = await this.conexionDatabase.ejecutarConsultaSQL(`select l.codigo, l.autor, l.titulo, l.descripcion, l.edicion, l.stock, l.estado, c.descripcion as descripcion_categoria from libro l, categoria c where l.id_categoria=c.id and l.estado`);
+        let resultadoLista: QueryResult = await this.conexionDatabase.ejecutarConsultaSQL(`select l.codigo, l.autor, l.titulo, l.descripcion, l.edicion, l.stock, l.estado, c.descripcion as descripcion_categoria from libro l, categoria c where l.id_categoria=c.id and l.estado order by l.codigo`);
         return resultadoLista.rows;
     }
 
