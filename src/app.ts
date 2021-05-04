@@ -18,6 +18,7 @@ import methodOverride from 'method-override';
 import { Conexion } from './database/Conexion';
 import CategoriaControlador from './controladores/CategoriaControlador';
 import { LibroControlador } from './controladores/LibroControlador';
+import { UsuarioLectorControlador } from './controladores/UsuarioLectorControlador';
 
 /**
  * Importacion de Vistas (rutas)
@@ -97,6 +98,8 @@ export class App {
         this.app.use('/gestionar_categoria', categoriaControlador.router);
         let libroControlador: LibroControlador = new LibroControlador();
         this.app.use('/gestionar_libro', libroControlador.router);
+        let usuarioLectorControlador: UsuarioLectorControlador = new UsuarioLectorControlador();
+        this.app.use('/gestionar_usuario_lector', usuarioLectorControlador.router);
         // send view dashboard (main view)
         this.app.get('/', async (req, res) => {
             res.render('dashboard');
