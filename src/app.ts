@@ -97,6 +97,10 @@ export class App {
         this.app.use('/gestionar_categoria', categoriaControlador.router);
         let libroControlador: LibroControlador = new LibroControlador();
         this.app.use('/gestionar_libro', libroControlador.router);
+        // send view dashboard (main view)
+        this.app.get('/', async (req, res) => {
+            res.render('dashboard');
+        });
     }
 
     /**
