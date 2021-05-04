@@ -1,59 +1,47 @@
 <div class="card mx-auto col-lg-6 bg-dark mb-3 text-light">
     <div class="card-header">
-        Editar Libro # {{codigo}}
+        Editar Usuario Lector con CI: {{ci}}
     </div>
-    <form action="/gestionar_libro/modificar/{{codigo}}?_method=PUT" method="post">
+    <form action="/gestionar_usuario_lector/modificar/{{ci}}?_method=PUT" method="post">
         <input type="hidden" name="_method" value="PUT">
         <div class="card-body">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Autor</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">CI</span>
                 </div>
-                <input type="text" class="form-control" required minlength="4" name="autor" placeholder="Juancito Pinto"
-                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{autor}}">
+                <input type="number" id="ci" class="form-control" required minlength="6" placeholder="ci del usuario"
+                    value="{{ci}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Titulo del Libro</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">Nombre</span>
                 </div>
-                <input type="text" class="form-control" required minlength="4" name="titulo"
-                    placeholder="Lo que el agua se llevó" aria-label="Sizing example input"
-                    aria-describedby="inputGroup-sizing-default" value="{{titulo}}">
+                <input type="text" id="nombre" class="form-control" required placeholder="Juan" value="{{nombre}}"
+                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Descripción</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">Apellidos</span>
                 </div>
-                <textarea name="descripcion" class="form-control" placeholder="Resumen del libro" cols="39"
-                    rows="3">{{descripcion}}</textarea>
+                <input type="text" id="apellidos" class="form-control" required placeholder="Chato Padilla"
+                    value="{{apellidos}}" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-default">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Edicion del Libro</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
                 </div>
-                <input type="text" class="form-control" required minlength="3" name="edicion"
-                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
-                    placeholder="ej. 1ra, 3ra, 5ta, 8va, 12va" value="{{edicion}}">
+                <input type="email" id="email" class="form-control" required aria-label="Sizing example input"
+                    value="{{email}}" aria-describedby="inputGroup-sizing-default"
+                    placeholder="ej. mi.cuenta@email.com">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Cantidad Disponible</span>
+                    <span class="input-group-text" id="inputGroup-sizing-default">Telefono</span>
                 </div>
-                <input type="number" class="form-control" required min="1" name="stock"
-                    aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="1"
-                    value="1" min="1" value="stock">
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Categoria: {{id_categoria}}</span>
-                </div>
-                <select class="form-select form-select-lg" value="{{id_categoria}}" size="3"
-                    aria-label="size 3 select example" name="id_categoria">
-                    <option value="0">Selecciona una Categoria</option>
-                    {{#each lista_categorias}}
-                    <option id="{{id}}" value="{{id}}">{{descripcion}} {{id_categoria}}</option>
-                    {{/each}}
-                </select>
+                <input type="number" id="telefono" class="form-control" required minlength="6" maxlength="8"
+                    value="{{telefono}}" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"
+                    placeholder="Ej. 75555555">
             </div>
         </div>
         <div class="card-footer">
@@ -62,13 +50,10 @@
                     <button type="submit" class="btn btn-outline-success">Guardar Cambios</button>
                 </div>
                 <div class="col-md-6">
-                    <a href="/gestionar_libro" type="button" class="btn btn-outline-danger">Cancelar Cambios</a>
+                    <a href="/gestionar_usuario_lector" type="button" class="btn btn-outline-danger">Cancelar
+                        Cambios</a>
                 </div>
             </div>
         </div>
     </form>
 </div>
-<script>
-    // obtiene el elemento de categoria seleccionado y adiciona el selected para su seleccion
-    document.getElementById("{{id_categoria}}").setAttribute('selected', '');
-</script>

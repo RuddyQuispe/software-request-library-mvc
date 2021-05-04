@@ -28,9 +28,18 @@ export class UsuarioLectorControlador {
         this.usuarioLectorVista = new UsuarioLectorVista();
     }
 
+    /**
+     * Obtiene la vista de Gestionar Usuario Lector
+     */
     public async obtenerVistaUsuarioLector(request: Request, response: Response): Promise<void> {
         await this.usuarioLectorVista.obtenerVistaUsuarioLector(response);
     }
+
+    /**
+     * registra un nuevo usuario lector a la BD del software
+     * @param request : peticion HTTP
+     * @param response : respuesta HTTP
+     */
     public async registrarUsuarioLector(request: Request, response: Response): Promise<void> {
         let { ci, nombre, apellidos, email, telefono } = request.body;
         this.usuarioLectorModelo.setCI(Number(ci));
@@ -44,10 +53,22 @@ export class UsuarioLectorControlador {
             await this.usuarioLectorVista.obtenerVistaUsuarioLector(response);
         }
     }
+
+    /**
+     * Este metodo obtiene la vista de editar usuario lector ya existente
+     * @param request : peticion HTTP
+     * @param response : respuesta http
+     */
     public async obtenerVistaEditarUsuarioLector(request: Request, response: Response): Promise<void> {
         let { ci_usuario_lector } = request.params;
         await this.usuarioLectorVista.obtenerVistaEditaUsuarioLector(response, Number(ci_usuario_lector));
     }
+
+    /**
+     * modifica los datos de un usuari lector ya existente
+     * @param request : peticion HTTP
+     * @param response : respuesta HTTP
+     */
     public async modificarUsuarioLector(request: Request, response: Response): Promise<void> {
         let { ci_usuario_lector } = request.params;
         let { nombre, apellidos, email, telefono } = request.body;

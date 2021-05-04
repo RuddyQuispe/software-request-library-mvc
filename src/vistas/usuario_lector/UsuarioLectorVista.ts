@@ -30,7 +30,7 @@ export class UsuarioLectorVista {
     public async obtenerVistaUsuarioLector(response: Response): Promise<void> {
         let listaDeUsuariosLectores = await this.usuarioLectorModelo.obtenerListaUsuariosLectores();
         response.render('usuario_lector/gestionar_usuario_lector', {
-            lista_libro: listaDeUsuariosLectores
+            lista_usuarios: listaDeUsuariosLectores
         });
     }
 
