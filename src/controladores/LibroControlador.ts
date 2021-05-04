@@ -33,7 +33,7 @@ export class LibroControlador {
      * @param request : peticion de HTTP
      * @param response : respuesta de HTTP
      */
-    public async obtenerListaLibros(request: Request, response: Response): Promise<void> {
+    public async obtenerVistaLibros(request: Request, response: Response): Promise<void> {
         await this.libroVista.obtenerVistaLibro(response);
     }
 
@@ -107,6 +107,11 @@ export class LibroControlador {
         }
     }
 
+    /**
+     * Este proceso se encarga de habilitar o inhabilitar un libro específico.
+     * @param request : peticion HTTP
+     * @param response : respuesta http
+     */
     public async habilitarOInhabilitarLibro(request: Request, response: Response): Promise<void> {
         let { codigo_libro } = request.params;
         this.libroModelo.setCodigo(Number(codigo_libro));
@@ -121,7 +126,7 @@ export class LibroControlador {
      * metodo privado para cargar las rutas que disponen en los metodos HTTP
      */
     private createRoutes(): void {
-        this.router.route('/').get(async (req: Request, res: Response) => this.obtenerListaLibros(req, res));
+        this.router.route('/').get(async (req: Request, res: Response) => this.obtenerVistaLibros(req, res));
         this.router.route('/').post(async (req: Request, res: Response) => this.registrarLibro(req, res));
         this.router.route('/:codigo_libro').get(async (req: Request, res: Response) => this.obtenerVistaEditarLibro(req, res));
         this.router.route('/modificar/:codigo_libro').put(async (req: Request, res: Response) => this.modificarLibro(req, res));
